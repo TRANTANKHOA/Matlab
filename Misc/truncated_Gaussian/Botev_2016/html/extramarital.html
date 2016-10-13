@@ -1,0 +1,141 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Exact Simulations for the Bayesian Posterior of the Probit Regression</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-02-03"><meta name="DC.source" content="extramarital.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Exact Simulations for the Bayesian Posterior of the Probit Regression</h1><p>Example uses the <b>extramarital affairs</b> dataset from Ray C. Fair, <i>Journal of Political Economy</i> Vol. 86, No. 1 (Feb., 1978), pp. 45-61</p><p>Let the prior be <img src="extramarital_eq11546222548329246548.png" alt="$\beta\sim N(\mathbf{0},\nu^2 I)$" style="width:89px;height:17px;">. We first simulate</p><p><img src="extramarital_eq18422010717095881593.png" alt="$$\mathbf{Z}\sim N(\mathbf{0},\Sigma),\textrm{ where } \Sigma=I+\nu^2 X X^\top,$$" style="width:242px;height:18px;"></p><p>conditional on <img src="extramarital_eq09656274529421072710.png" alt="$\mathbf{Z}\geq \mathbf{0}$" style="width:38px;height:13px;">. Then, we simulate the posterior regression coefficients, <img src="extramarital_eq17331442575217596290.png" alt="$\beta$" style="width:9px;height:14px;">, of the Probit regression</p><p><img src="extramarital_eq03506693295410399892.png" alt="$$(\beta|\mathbf{Z})\sim N(C X^\top \mathbf{Z},C),\textrm{ where } C^{-1}=I/\nu^2+X^\top X.$$" style="width:324px;height:18px;"></p><pre class="codeinput">load(<span class="string">'private\affairs.csv'</span>); <span class="comment">% load data</span>
+Y = affairs(:,1); X = affairs(:,2:end); <span class="comment">% response and design matrix</span>
+[m, d] = size(X); <span class="comment">% dimensions of problem</span>
+X=diag(2*Y-1)*X; <span class="comment">% incorporate response into design matrix</span>
+nu=sqrt(5); <span class="comment">% prior scale parameter</span>
+C=inv(eye(d)/nu^2+X'*X);L=chol(C,<span class="string">'lower'</span>);Sig=eye(m)+nu^2*X*X'; <span class="comment">% this is covariance of Z given beta</span>
+l=zeros(m,1);u=inf(m,1);est=mvNcdf(l,u,Sig,10^5);
+</pre><pre class="codeoutput">Warning: Method may fail as covariance matrix is close to singular! 
+</pre><p>estimate the reciprocal of acceptance probability</p><pre class="codeinput">est.upbnd/est.prob
+</pre><pre class="codeoutput">
+ans =
+
+  216.6643
+
+</pre><p>sample <img src="extramarital_eq00741633636673075703.png" alt="$\mathbf{Z}$" style="width:9px;height:10px;"> from the truncated multivariate normal</p><pre class="codeinput">tic
+z=mvrandn(l,u,Sig,10^2);
+toc
+</pre><pre class="codeoutput">Warning: Method may fail as covariance matrix is close to singular! 
+Elapsed time is 21.546320 seconds.
+</pre><p>to speed up the simulation apply a different variable reordering via <tt>cholorth.m</tt></p><pre class="codeinput">tic
+z=mvrorth(l,u,Sig,10^3);
+toc
+</pre><pre class="codeoutput">Elapsed time is 36.681407 seconds.
+</pre><p>simulate <img src="extramarital_eq17331442575217596290.png" alt="$\beta$" style="width:9px;height:14px;"> given <img src="extramarital_eq00741633636673075703.png" alt="$\mathbf{Z}$" style="width:9px;height:10px;"> and plot boxplots of marginals</p><pre class="codeinput">beta=L*randn(d,size(z,2))+C*X'*z;
+boxplot(beta',<span class="string">'labels'</span>, <span class="keyword">...</span>
+    {<span class="string">'Const.'</span> <span class="string">'Male'</span> <span class="string">'Year'</span> <span class="string">'Kids'</span> <span class="string">'Relig.'</span> <span class="string">'Ed.'</span>,<span class="string">'Happy'</span>}), box <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="extramarital_01.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Exact Simulations for the Bayesian Posterior of the Probit Regression
+% Example uses the *extramarital affairs* dataset from
+% Ray C. Fair, _Journal of Political Economy_ Vol. 86, No. 1 (Feb., 1978), pp. 45-61
+%
+% Let the prior be $\beta\sim N(\mathbf{0},\nu^2 I)$. We first simulate
+%
+% $$\mathbf{Z}\sim N(\mathbf{0},\Sigma),\textrm{ where } \Sigma=I+\nu^2 X X^\top,$$
+%
+% conditional on $\mathbf{Z}\geq \mathbf{0}$. Then, we simulate the
+% posterior regression coefficients, $\beta$, of the Probit regression
+%
+% $$(\beta|\mathbf{Z})\sim N(C X^\top \mathbf{Z},C),\textrm{ where } C^{-1}=I/\nu^2+X^\top X.$$
+load('private\affairs.csv'); % load data
+Y = affairs(:,1); X = affairs(:,2:end); % response and design matrix
+[m, d] = size(X); % dimensions of problem
+X=diag(2*Y-1)*X; % incorporate response into design matrix
+nu=sqrt(5); % prior scale parameter
+C=inv(eye(d)/nu^2+X'*X);L=chol(C,'lower');Sig=eye(m)+nu^2*X*X'; % this is covariance of Z given beta
+l=zeros(m,1);u=inf(m,1);est=mvNcdf(l,u,Sig,10^5);
+%%
+% estimate the reciprocal of acceptance probability
+est.upbnd/est.prob
+%%
+% sample $\mathbf{Z}$ from the truncated multivariate normal
+tic
+z=mvrandn(l,u,Sig,10^2);
+toc
+%%
+% to speed up the simulation apply a different variable reordering via
+% |cholorth.m|
+tic
+z=mvrorth(l,u,Sig,10^3);
+toc
+%%
+% simulate $\beta$ given $\mathbf{Z}$ and plot boxplots of marginals
+beta=L*randn(d,size(z,2))+C*X'*z;
+boxplot(beta','labels', ...
+    {'Const.' 'Male' 'Year' 'Kids' 'Relig.' 'Ed.','Happy'}), box off
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

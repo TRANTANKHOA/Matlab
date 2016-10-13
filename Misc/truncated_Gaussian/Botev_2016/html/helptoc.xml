@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding="utf-8"?>
+<toc version="2.0">
+
+    <tocitem target="examples.html">Truncated Multivariate Student and Normal Toolbox
+      <tocitem target="extramarital.html">Bayesian Posterior of the Probit Regression
+      </tocitem>
+	  <tocitem target="WomenWage.html">Bayesian Posterior of the Tobit Regression
+      </tocitem>
+    </tocitem>
+
+</toc>

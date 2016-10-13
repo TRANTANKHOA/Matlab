@@ -1,0 +1,326 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Truncated Multivariate Student &amp; Normal Toolbox</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-02-03"><meta name="DC.source" content="examples.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Truncated Multivariate Student &amp; Normal Toolbox</h1><!--introduction--><p>Main functions in this toolbox include.</p><div><ol><li><tt>mvNcdf(l,u,Sig,n)</tt>, which uses a Monte Carlo sample of size <img src="examples_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> to estimate the cumulative distribution function, <img src="examples_eq12348601615765137968.png" alt="$\mathrm{Pr}(\mathbf{l} < \mathbf{X} < \mathbf{u})$" style="width:91px;height:15px;">, of the <img src="examples_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">-dimensional multivariate normal with zero-mean and covariance <img src="examples_eq11513513746854591617.png" alt="$\Sigma$" style="width:10px;height:10px;">, that is, <img src="examples_eq18102200478838598348.png" alt="$\mathbf{X}\sim N(\mathbf{0},\Sigma)$" style="width:81px;height:15px;">;</li><li><tt>mvNqmc(l,u,Sig,n)</tt> provides a Quasi Monte Carlo algorithm for medium dimensions (say, <img src="examples_eq06399571499643246574.png" alt="$d<50$" style="width:41px;height:11px;">), in addition to the faster Monte Carlo algorithm in <tt>mvNcdf</tt>;</li><li><tt>mvrandn(l,u,Sig,n)</tt> simulates <img src="examples_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> random vectors <img src="examples_eq18102200478838598348.png" alt="$\mathbf{X}\sim N(\mathbf{0},\Sigma)$" style="width:81px;height:15px;">, conditional on <img src="examples_eq01559365206128147558.png" alt="$\mathbf{l}<\mathbf{X}<\mathbf{u}$" style="width:66px;height:11px;">;</li><li><tt>norminvp(p,l,u)</tt>  computes the quantile function at <img src="examples_eq03541281359729733316.png" alt="$p\in[0,1]$" style="width:54px;height:15px;"> of the univariate <img src="examples_eq09235286880098453239.png" alt="$N(0,1)$" style="width:44px;height:15px;"> distribution truncated to <img src="examples_eq02212575862899503833.png" alt="$[l,u]$" style="width:25px;height:15px;">, and with high precision in the tails;</li><li><tt>trandn(l,u)</tt> is a fast random number generator from the univariate <img src="examples_eq09235286880098453239.png" alt="$N(0,1)$" style="width:44px;height:15px;"> distribution truncated to <img src="examples_eq02212575862899503833.png" alt="$[l,u]$" style="width:25px;height:15px;">.</li><li><tt>mvTcdf(l,u,Sig,nu,n)</tt>, which uses a Monte Carlo sample of size <img src="examples_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> to estimate the cumulative distribution function, <img src="examples_eq06399374486798470942.png" alt="$\mathrm{Pr}( \mathbf{l} < \mathbf{X} < \mathbf{u})$" style="width:91px;height:15px;">, of the <img src="examples_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">-dimensional multivariate student with zero-mean and covariance <img src="examples_eq11513513746854591617.png" alt="$\Sigma$" style="width:10px;height:10px;"> and degrees of freedom <img src="examples_eq16519649717996589748.png" alt="$\nu$" style="width:8px;height:7px;">, that is, <img src="examples_eq02926969592084690211.png" alt="$\mathbf{X}\sim t_\nu(\mathbf{0},\Sigma)$" style="width:79px;height:15px;">;</li><li><tt>mvTqmc(l,u,Sig,nu,n)</tt> provides a Quasi Monte Carlo algorithm for medium dimensions (say, <img src="examples_eq06399571499643246574.png" alt="$d<50$" style="width:41px;height:11px;">), in addition to the faster Monte Carlo algorithm in <tt>mvTcdf</tt>;</li><li><tt>mvrandt(l,u,Sig,nu,n)</tt> simulates <img src="examples_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> random vectors <img src="examples_eq02926969592084690211.png" alt="$\mathbf{X}\sim t_\nu(\mathbf{0},\Sigma)$" style="width:79px;height:15px;">, conditional on <img src="examples_eq01559365206128147558.png" alt="$\mathbf{l}<\mathbf{X}<\mathbf{u}$" style="width:66px;height:11px;">;</li><li><tt>tregress(l,u,Sig,df,n)</tt> simulates <img src="examples_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> pairs, <img src="examples_eq08907951036697752924.png" alt="$(\mathbf{Z},R)$" style="width:37px;height:15px;">, so that <img src="examples_eq02445351261126774798.png" alt="$\frac{\sqrt{\nu}\mathbf{Z}}{R}\sim t_\nu(\mathbf{0},\Sigma)$" style="width:90px;height:21px;">, conditional on <img src="examples_eq01559365206128147558.png" alt="$\mathbf{l}<\mathbf{X}<\mathbf{u}$" style="width:66px;height:11px;">;</li></ol></div><p>Reference: Z. I. Botev (2017), <i>The Normal Law Under Linear Restrictions: Simulation and Estimation via Minimax Tilting</i>, Journal of the Royal Statistical Society, Series B, Volume 79, Part 1, pp. 1-24</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1"><tt>mvNcdf(l,u,Sig,n)</tt> - multivariate normal cumulative distribution</a></li><li><a href="#5"><tt>mvNqmc(l,u,Sig,n)</tt> - multivariate normal cumulative distribution (Quasi Monte Carlo)</a></li><li><a href="#6"><tt>mvrandn(l,u,Sig,n)</tt> - truncated multivariate normal generator</a></li><li><a href="#11"><tt>norminvp(p,l,u)</tt> - normal quantile function with tail-precision</a></li><li><a href="#13"><tt>trandn(l,u)</tt> - fast truncated normal generator</a></li><li><a href="#15"><tt>mvTcdf(l,u,Sig,nu,n)</tt> - multivariate student cumulative distribution</a></li><li><a href="#17"><tt>mvTqmc(l,u,Sig,df,n)</tt> - multivariate student cumulative distribution (Quasi Monte Carlo)</a></li><li><a href="#18"><tt>mvrandt(l,u,Sig,df,n)</tt> - truncated multivariate normal generator</a></li><li><a href="#20"><tt>tregress(l,u,Sig,df,n)</tt> - truncated student for Bayesian regression simulation</a></li></ul></div><h2><tt>mvNcdf(l,u,Sig,n)</tt> - multivariate normal cumulative distribution<a name="1"></a></h2><div><ul><li>Suppose we wish to estimate <img src="examples_eq02007240741324381209.png" alt="$\ell=\mathrm{Pr}( \mathbf{l} < A\mathbf{X} < \mathbf{u})$" style="width:129px;height:15px;">, where <img src="examples_eq05147331747641807187.png" alt="$A$" style="width:10px;height:11px;"> is a full rank matrix and <img src="examples_eq04301011767861055247.png" alt="$\mathbf{X}\sim N(\mu,\Sigma)$" style="width:82px;height:15px;">.</li></ul></div><pre class="codeinput">d=10;Sig=gallery(<span class="string">'randcorr'</span>,d);mu = ones(d,1);l=-rand(d,1);u=rand(d,1);A=rand(d,d);
+</pre><p>We simply compute <img src="examples_eq08866362022513567803.png" alt="$\ell=\mathrm{Pr}( \mathbf{l}-A\mu < \mathbf{Y} < \mathbf{u}-A\mu)$" style="width:194px;height:15px;">, where <img src="examples_eq09059083640654193587.png" alt="$\mathbf{Y}\sim N(\mathbf{0},A\Sigma A^\top)$" style="width:113px;height:17px;"></p><pre class="codeinput">est=mvNcdf(l-A*mu,u-A*mu,A*Sig*A',10^4)
+</pre><pre class="codeoutput">
+est = 
+
+      prob: 5.9940e-06
+    relErr: 0.0038
+     upbnd: 9.9219e-06
+
+</pre><div><ul><li>Consider the following large-scale example with known probability of <img src="examples_eq17209407962224561735.png" alt="$1/(d+1)$" style="width:57px;height:15px;"></li></ul></div><pre class="codeinput">d=10^3;l=zeros(d,1);u=Inf(d,1);Sig=0.5*eye(d)+.5*ones(d,d);
+est=mvNcdf(l,u,Sig,10^4)
+</pre><pre class="codeoutput">
+est = 
+
+      prob: 9.9873e-04
+    relErr: 0.0103
+     upbnd: 0.0030
+
+</pre><p>compare <tt>est.prob</tt> with exact value by computing relative error</p><pre class="codeinput">abs(est.prob-1/(d+1))*(d+1)
+</pre><pre class="codeoutput">
+ans =
+
+   2.6919e-04
+
+</pre><h2><tt>mvNqmc(l,u,Sig,n)</tt> - multivariate normal cumulative distribution (Quasi Monte Carlo)<a name="5"></a></h2><p>Compare errors using pseudo-random and quasi-random implementation for small to medium <img src="examples_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">.</p><pre class="codeinput">d=20;l=zeros(d,1);u=Inf(d,1);Sig=randn(d,d);Sig=Sig*Sig';
+estqmc=mvNqmc(l,u,Sig,10^5), est=mvNcdf(l,u,Sig,10^5)
+</pre><pre class="codeoutput">
+estqmc = 
+
+      prob: 1.6446e-07
+    relErr: 0.0012
+     upbnd: 1.0199e-06
+
+
+est = 
+
+      prob: 1.6390e-07
+    relErr: 0.0032
+     upbnd: 1.0199e-06
+
+</pre><h2><tt>mvrandn(l,u,Sig,n)</tt> - truncated multivariate normal generator<a name="6"></a></h2><div><ul><li>Suppose we wish to simulate a bivariate <img src="examples_eq04301011767861055247.png" alt="$\mathbf{X}\sim N(\mu,\Sigma)$" style="width:82px;height:15px;">, conditional on <img src="examples_eq00605444540811664260.png" alt="$X_1-X_2<-6$" style="width:91px;height:13px;"></li></ul></div><pre class="codeinput">Sig=[1,0.9;0.9,1];mu=[-3;0];l=[-Inf;-Inf];u=[-6;Inf];A=[1,-1;0,1];
+</pre><p>Simulate <img src="examples_eq09059083640654193587.png" alt="$\mathbf{Y}\sim N(\mathbf{0},A\Sigma A^\top)$" style="width:113px;height:17px;"> conditional on <img src="examples_eq11519898342849232364.png" alt="$\mathbf{l}-A\mu < \mathbf{Y} < \mathbf{u}-A\mu$" style="width:142px;height:14px;"> and then set <img src="examples_eq07404451626902336379.png" alt="$\mathbf{X}=\mu+A^{-1}\mathbf{Y}$" style="width:96px;height:16px;">.</p><pre class="codeinput">n=10^3;Y=mvrandn(l-A*mu,u-A*mu,A*Sig*A',n); X=repmat(mu,1,n)+A\Y;
+plot(X(1,:),X(2,:),<span class="string">'r.'</span>), xlabel(<span class="string">'X_1'</span>), ylabel(<span class="string">'X_2'</span>), hold <span class="string">on</span>
+</pre><img vspace="5" hspace="5" src="examples_01.png" style="width:560px;height:420px;" alt=""> <p>Now superimpose the samples from the unconstrained Gaussian.</p><pre class="codeinput">x=repmat(mu,1,n)+chol(Sig,<span class="string">'lower'</span>)*randn(2,n); plot(x(1,:),x(2,:),<span class="string">'.'</span>)
+</pre><img vspace="5" hspace="5" src="examples_02.png" style="width:560px;height:420px;" alt=""> <div><ul><li>Large-scale example with strong positive correlation.</li></ul></div><pre class="codeinput">d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2;
+X=mvrandn(l,u,Sig,n);
+</pre><p>Plot the boxplots of the <img src="examples_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">-marginal distributions together with their truncation limits.</p><pre class="codeinput">boxplot(X',<span class="string">'plotstyle'</span>,<span class="string">'compact'</span>),set(gca,<span class="string">'XTickLabel'</span>,{<span class="string">''</span>}),
+xlabel(<span class="string">'dimension index'</span>),ylabel(<span class="string">'X_i'</span>),hold <span class="string">on</span>, plot(1:d,l,<span class="string">'r'</span>,1:d,u,<span class="string">'r'</span>)
+</pre><img vspace="5" hspace="5" src="examples_03.png" style="width:560px;height:420px;" alt=""> <h2><tt>norminvp(p,l,u)</tt> - normal quantile function with tail-precision<a name="11"></a></h2><p>Suppose we wish to simulate a random variable <img src="examples_eq05201021248343091790.png" alt="$Z\sim N(\mu,\sigma^2)$" style="width:84px;height:17px;"> conditional on <img src="examples_eq13379770067542002891.png" alt="$l<Z<u$" style="width:63px;height:11px;"> using the inverse transform method:</p><pre class="codeinput">d=10^5;l=9*ones(d,1);u=9.5*ones(d,1);mu=1;sigma=1;
+X=norminvp(rand(d,1),(l-mu)/sigma,(u-mu)/sigma);
+Z=mu+sigma*X;
+</pre><p>Now plot a histogram of the result.</p><pre class="codeinput">hold <span class="string">off</span>, histogram(Z)
+</pre><img vspace="5" hspace="5" src="examples_04.png" style="width:560px;height:420px;" alt=""> <h2><tt>trandn(l,u)</tt> - fast truncated normal generator<a name="13"></a></h2><p>Simulate <img src="examples_eq16587793192672683843.png" alt="$10^6$" style="width:18px;height:14px;"> samples with different truncation points.</p><pre class="codeinput">l=rand(10^6,1)*70; u=Inf(10^6,1);
+tic
+trandn(l,u);
+toc
+</pre><pre class="codeoutput">Elapsed time is 0.093202 seconds.
+</pre><p>Compare speed of fast generator with that of <tt>norminvp.m</tt>, the latter being useful for Quasi Monte Carlo estimation.</p><pre class="codeinput">tic
+norminvp(rand(size(l)),l,u);
+toc
+</pre><pre class="codeoutput">Elapsed time is 1.044950 seconds.
+</pre><h2><tt>mvTcdf(l,u,Sig,nu,n)</tt> - multivariate student cumulative distribution<a name="15"></a></h2><div><ul><li>Comparison with Matlab's default routine</li></ul></div><pre class="codeinput">d=20;l=ones(d,1)/2;u=ones(d,1);df=400;Sig=inv(0.5*eye(d)+.5*ones(d,d));
+est=mvTcdf(l,u,Sig,df,10^4) <span class="comment">% output of our method</span>
+</pre><pre class="codeoutput">
+est = 
+
+      prob: 1.7743e-37
+    relErr: 0.0048
+     upbnd: 2.8537e-37
+
+</pre><p>Now execute Matlab's toolbox\stats\stats\mvtcdf.m and verify that with <img src="examples_eq15082233661890321885.png" alt="$n=10^6$" style="width:47px;height:14px;"> it is slow and inaccurate.</p><pre class="codeinput">options=optimset(<span class="string">'TolFun'</span>,0,<span class="string">'MaxFunEvals'</span>,10^6,<span class="string">'Display'</span>,<span class="string">'iter'</span>);
+[prob,err]=mvtcdf(l,u,Sig,df,options)
+</pre><pre class="codeoutput">estimate     error estimate    function evaluations
+---------------------------------------------------
+9.9174e-50      3.47110e-49           8650
+1.4476e-49      3.37255e-49           21800
+1.8365e-49      3.19202e-49           41650
+2.1336e-49      2.84387e-49           71300
+2.1917e-49      2.84086e-49           116650
+2.2231e-49      2.84009e-49           184700
+2.6081e-49      2.70221e-49           287350
+2.6262e-49      2.70195e-49           441300
+2.7106e-49      2.69638e-49           672350
+Warning: Unable to achieve error tolerance of 0 in 1000000 function evaluations.
+Increase the maximum number of function evaluations, or the error tolerance. 
+
+prob =
+
+   2.7106e-49
+
+
+err =
+
+   2.6964e-49
+
+</pre><h2><tt>mvTqmc(l,u,Sig,df,n)</tt> - multivariate student cumulative distribution (Quasi Monte Carlo)<a name="17"></a></h2><p>Compare errors using pseudo-random and quasi-random implementation for small to medium <img src="examples_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">.</p><pre class="codeinput">est=mvTqmc(l,u,Sig,df,10^4) <span class="comment">% QMC version</span>
+est=mvTcdf(l,u,Sig,df,10^4) <span class="comment">% ordinary Monte Carlo version</span>
+</pre><pre class="codeoutput">
+est = 
+
+      prob: 1.7826e-37
+    relErr: 4.7910e-04
+     upbnd: 2.8537e-37
+
+
+est = 
+
+      prob: 1.7717e-37
+    relErr: 0.0048
+     upbnd: 2.8537e-37
+
+</pre><h2><tt>mvrandt(l,u,Sig,df,n)</tt> - truncated multivariate normal generator<a name="18"></a></h2><div><ul><li>Large-scale example with strong positive correlation.</li></ul></div><pre class="codeinput">d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2; df=10;
+X=mvrandt(l,u,Sig,df,n);
+</pre><p>Plot the boxplots of the <img src="examples_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">-marginal distributions together with their truncation limits.</p><pre class="codeinput">boxplot(X',<span class="string">'plotstyle'</span>,<span class="string">'compact'</span>),set(gca,<span class="string">'XTickLabel'</span>,{<span class="string">''</span>}),
+xlabel(<span class="string">'dimension index'</span>),ylabel(<span class="string">'X_i'</span>),hold <span class="string">on</span>, plot(1:d,l,<span class="string">'r'</span>,1:d,u,<span class="string">'r'</span>)
+</pre><img vspace="5" hspace="5" src="examples_05.png" style="width:560px;height:420px;" alt=""> <h2><tt>tregress(l,u,Sig,df,n)</tt> - truncated student for Bayesian regression simulation<a name="20"></a></h2><div><ul><li>simulates <img src="examples_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> random pairs, <img src="examples_eq08907951036697752924.png" alt="$(\mathbf{Z},R)$" style="width:37px;height:15px;">, such that <img src="examples_eq08559192286592842651.png" alt="$\frac{\sqrt{\nu}\mathbf{Z}}{R}$" style="width:22px;height:21px;"> has the same distribution as  <img src="examples_eq02926969592084690211.png" alt="$\mathbf{X}\sim t_\nu(\mathbf{0},\Sigma)$" style="width:79px;height:15px;">, conditional on <img src="examples_eq01559365206128147558.png" alt="$\mathbf{l}<\mathbf{X}<\mathbf{u}$" style="width:66px;height:11px;">. For example, we can repeat the above experiment as follows.</li></ul></div><pre class="codeinput">d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2; df=10;
+[Z,R]=tregress(l,u,Sig,df,n);
+X=bsxfun(@rdivide,sqrt(df)*Z,R);
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Truncated Multivariate Student & Normal Toolbox
+% Main functions in this toolbox include.
+%
+% # |mvNcdf(l,u,Sig,n)|, which uses a Monte Carlo sample of size $n$ to estimate the cumulative
+% distribution function, $\mathrm{Pr}(\mathbf{l} < \mathbf{X} < \mathbf{u})$, of the $d$-dimensional
+% multivariate normal with zero-mean and covariance $\Sigma$, that is,
+% $\mathbf{X}\sim N(\mathbf{0},\Sigma)$;
+% # |mvNqmc(l,u,Sig,n)| provides a Quasi Monte Carlo algorithm for medium dimensions
+% (say, $d<50$), in addition to the faster Monte Carlo algorithm in |mvNcdf|;
+% # |mvrandn(l,u,Sig,n)| simulates $n$ random vectors $\mathbf{X}\sim N(\mathbf{0},\Sigma)$, conditional on $\mathbf{l}<\mathbf{X}<\mathbf{u}$;
+% # |norminvp(p,l,u)|  computes the quantile function at $p\in[0,1]$ of the univariate $N(0,1)$ distribution
+% truncated to $[l,u]$, and with high precision in the tails;
+% # |trandn(l,u)| is a fast random number generator from the univariate $N(0,1)$
+% distribution truncated to $[l,u]$.
+% # |mvTcdf(l,u,Sig,nu,n)|, which uses a Monte Carlo sample of size $n$ to estimate the cumulative
+% distribution function, $\mathrm{Pr}( \mathbf{l} < \mathbf{X} < \mathbf{u})$, of the $d$-dimensional
+% multivariate student with zero-mean and covariance $\Sigma$ and
+% degrees of freedom $\nu$, that is, $\mathbf{X}\sim t_\nu(\mathbf{0},\Sigma)$;
+% # |mvTqmc(l,u,Sig,nu,n)| provides a Quasi Monte Carlo algorithm for medium dimensions
+% (say, $d<50$), in addition to the faster Monte Carlo algorithm in |mvTcdf|;
+% # |mvrandt(l,u,Sig,nu,n)| simulates $n$ random vectors $\mathbf{X}\sim t_\nu(\mathbf{0},\Sigma)$, conditional on $\mathbf{l}<\mathbf{X}<\mathbf{u}$;
+% # |tregress(l,u,Sig,df,n)| simulates $n$ pairs, $(\mathbf{Z},R)$, so that $\frac{\sqrt{\nu}\mathbf{Z}}{R}\sim t_\nu(\mathbf{0},\Sigma)$, conditional on $\mathbf{l}<\mathbf{X}<\mathbf{u}$;
+%
+% Reference: Z. I. Botev (2017), _The Normal Law Under Linear Restrictions:
+% Simulation and Estimation via Minimax Tilting_, Journal of the Royal 
+% Statistical Society, Series B, Volume 79, Part 1, pp. 1-24
+%
+%% |mvNcdf(l,u,Sig,n)| - multivariate normal cumulative distribution
+%
+% * Suppose we wish to estimate $\ell=\mathrm{Pr}( \mathbf{l} < A\mathbf{X} < \mathbf{u})$, where $A$ is a
+% full rank matrix and $\mathbf{X}\sim N(\mu,\Sigma)$.  
+d=10;Sig=gallery('randcorr',d);mu = ones(d,1);l=-rand(d,1);u=rand(d,1);A=rand(d,d);  
+%%
+% We simply compute $\ell=\mathrm{Pr}( \mathbf{l}-A\mu < \mathbf{Y} < \mathbf{u}-A\mu)$, where $\mathbf{Y}\sim N(\mathbf{0},A\Sigma A^\top)$
+est=mvNcdf(l-A*mu,u-A*mu,A*Sig*A',10^4)
+%%
+%
+% * Consider the following large-scale example with known probability of $1/(d+1)$
+d=10^3;l=zeros(d,1);u=Inf(d,1);Sig=0.5*eye(d)+.5*ones(d,d);
+est=mvNcdf(l,u,Sig,10^4)
+%% 
+% compare |est.prob| with exact value by computing relative error
+abs(est.prob-1/(d+1))*(d+1)
+%% |mvNqmc(l,u,Sig,n)| - multivariate normal cumulative distribution (Quasi Monte Carlo)
+% Compare errors using pseudo-random and quasi-random implementation for small to medium
+% $d$.
+d=20;l=zeros(d,1);u=Inf(d,1);Sig=randn(d,d);Sig=Sig*Sig'; 
+estqmc=mvNqmc(l,u,Sig,10^5), est=mvNcdf(l,u,Sig,10^5)
+%% |mvrandn(l,u,Sig,n)| - truncated multivariate normal generator
+%
+% * Suppose we wish to simulate a bivariate $\mathbf{X}\sim N(\mu,\Sigma)$, conditional on $X_1-X_2<-6$
+Sig=[1,0.9;0.9,1];mu=[-3;0];l=[-Inf;-Inf];u=[-6;Inf];A=[1,-1;0,1];
+%%
+% Simulate $\mathbf{Y}\sim N(\mathbf{0},A\Sigma A^\top)$ conditional on $\mathbf{l}-A\mu < \mathbf{Y} < \mathbf{u}-A\mu$
+% and then set $\mathbf{X}=\mu+A^{-1}\mathbf{Y}$.
+n=10^3;Y=mvrandn(l-A*mu,u-A*mu,A*Sig*A',n); X=repmat(mu,1,n)+A\Y;
+plot(X(1,:),X(2,:),'r.'), xlabel('X_1'), ylabel('X_2'), hold on
+    %% 
+    % Now superimpose the samples from the unconstrained Gaussian.
+x=repmat(mu,1,n)+chol(Sig,'lower')*randn(2,n); plot(x(1,:),x(2,:),'.')
+%% 
+% * Large-scale example with strong positive correlation.
+d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2;
+X=mvrandn(l,u,Sig,n);
+%%
+% Plot the boxplots of the $d$-marginal distributions together with their
+% truncation limits.
+boxplot(X','plotstyle','compact'),set(gca,'XTickLabel',{''}),
+xlabel('dimension index'),ylabel('X_i'),hold on, plot(1:d,l,'r',1:d,u,'r')
+%% |norminvp(p,l,u)| - normal quantile function with tail-precision
+% Suppose we wish to simulate a random variable $Z\sim N(\mu,\sigma^2)$
+% conditional on $l<Z<u$ using the inverse transform method:
+d=10^5;l=9*ones(d,1);u=9.5*ones(d,1);mu=1;sigma=1; 
+X=norminvp(rand(d,1),(l-mu)/sigma,(u-mu)/sigma); 
+Z=mu+sigma*X;
+%%
+% Now plot a histogram of the result.
+hold off, histogram(Z)
+
+%% |trandn(l,u)| - fast truncated normal generator
+% Simulate $10^6$ samples with different truncation points.
+l=rand(10^6,1)*70; u=Inf(10^6,1);
+tic
+trandn(l,u);
+toc
+%% 
+% Compare speed of fast generator with that of |norminvp.m|, the latter being useful for Quasi Monte Carlo estimation.
+tic
+norminvp(rand(size(l)),l,u); 
+toc
+%% |mvTcdf(l,u,Sig,nu,n)| - multivariate student cumulative distribution
+%
+% * Comparison with Matlab's default routine
+d=20;l=ones(d,1)/2;u=ones(d,1);df=400;Sig=inv(0.5*eye(d)+.5*ones(d,d));
+est=mvTcdf(l,u,Sig,df,10^4) % output of our method
+%%
+% Now execute Matlab's toolbox\stats\stats\mvtcdf.m and verify that with $n=10^6$ it is slow and inaccurate.
+options=optimset('TolFun',0,'MaxFunEvals',10^6,'Display','iter');
+[prob,err]=mvtcdf(l,u,Sig,df,options)
+%% |mvTqmc(l,u,Sig,df,n)| - multivariate student cumulative distribution (Quasi Monte Carlo)
+% Compare errors using pseudo-random and quasi-random implementation for small to medium
+% $d$.
+est=mvTqmc(l,u,Sig,df,10^4) % QMC version
+est=mvTcdf(l,u,Sig,df,10^4) % ordinary Monte Carlo version
+%% |mvrandt(l,u,Sig,df,n)| - truncated multivariate normal generator
+% * Large-scale example with strong positive correlation.
+d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2; df=10;
+X=mvrandt(l,u,Sig,df,n);
+%%
+% Plot the boxplots of the $d$-marginal distributions together with their
+% truncation limits.
+boxplot(X','plotstyle','compact'),set(gca,'XTickLabel',{''}),
+xlabel('dimension index'),ylabel('X_i'),hold on, plot(1:d,l,'r',1:d,u,'r')
+%% |tregress(l,u,Sig,df,n)| - truncated student for Bayesian regression simulation
+% * simulates $n$ random pairs, $(\mathbf{Z},R)$, such that $\frac{\sqrt{\nu}\mathbf{Z}}{R}$ has the same
+% distribution as  $\mathbf{X}\sim t_\nu(\mathbf{0},\Sigma)$, conditional on
+% $\mathbf{l}<\mathbf{X}<\mathbf{u}$. For example, we can repeat the above
+% experiment as follows.
+d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2; df=10;
+[Z,R]=tregress(l,u,Sig,df,n);
+X=bsxfun(@rdivide,sqrt(df)*Z,R);
+
+
+  
+##### SOURCE END #####
+--></body></html>

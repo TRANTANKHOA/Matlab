@@ -1,0 +1,169 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Truncated Multivariate Student Toolbox</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-22"><meta name="DC.source" content="examplesT.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Truncated Multivariate Student Toolbox</h1><!--introduction--><p>Main functions in this toolbox include.</p><div><ol><li><tt>mvTcdf(l,u,Sig,nu,n)</tt>, which uses a Monte Carlo sample of size <img src="examplesT_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> to estimate the cumulative distribution function, <img src="examplesT_eq16467339777067591036.png" alt="$\mathrm{Pr}( l < X < u)$" style="width:91px;height:15px;">, of the <img src="examplesT_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">-dimensional multivariate student with zero-mean and covariance <img src="examplesT_eq11513513746854591617.png" alt="$\Sigma$" style="width:10px;height:10px;"> and degrees of freedom <img src="examplesT_eq16519649717996589748.png" alt="$\nu$" style="width:8px;height:7px;">, that is, <img src="examplesT_eq17790144792853828635.png" alt="$X\sim t_\nu(0,\Sigma)$" style="width:79px;height:15px;">;</li><li><tt>mvTqmc(l,u,Sig,nu,n)</tt> provides a Quasi Monte Carlo algorithm for medium dimensions (say, <img src="examplesT_eq06399571499643246574.png" alt="$d<50$" style="width:41px;height:11px;">), in addition to the faster Monte Carlo algorithm in <tt>mvTcdf</tt>;</li><li><tt>mvrandt(l,u,Sig,nu,n)</tt> simulates <img src="examplesT_eq08984225997457563733.png" alt="$n$" style="width:9px;height:7px;"> random vectors <img src="examplesT_eq17790144792853828635.png" alt="$X\sim t_\nu(0,\Sigma)$" style="width:79px;height:15px;">, conditional on <img src="examplesT_eq08736377545829873975.png" alt="$l<X<u$" style="width:66px;height:11px;">;</li></ol></div><p>Reference: Z. I. Botev (2015), <i>The Normal Law Under Linear Restrictions: Simulation and Estimation via Minimax Tilting</i>, submitted to JRSS(B)</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1"><tt>mvTcdf(l,u,Sig,nu,n)</tt> - multivariate student cumulative distribution</a></li><li><a href="#3"><tt>mvTqmc(l,u,Sig,df,n)</tt> - multivariate student cumulative distribution (Quasi Monte Carlo)</a></li><li><a href="#4"><tt>mvrandn(l,u,Sig,n)</tt> - truncated multivariate normal generator</a></li></ul></div><h2><tt>mvTcdf(l,u,Sig,nu,n)</tt> - multivariate student cumulative distribution<a name="1"></a></h2><div><ul><li>Comparison with Matlab's default routine</li></ul></div><pre class="codeinput">d=20;l=ones(d,1)/2;u=ones(d,1);df=400;Sig=inv(0.5*eye(d)+.5*ones(d,d));
+est=mvTcdf(l,u,Sig,df,10^4) <span class="comment">% output of our method</span>
+</pre><pre class="codeoutput">
+est = 
+
+      prob: 1.7841e-37
+    relErr: 0.0048
+     upbnd: 2.8537e-37
+
+</pre><p>Now execute Matlab's toolbox\stats\stats\mvtcdf.m and verify that with n=10^6 it is slow and inaccurate.</p><pre class="codeinput">options=optimset(<span class="string">'TolFun'</span>,0,<span class="string">'MaxFunEvals'</span>,10^6,<span class="string">'Display'</span>,<span class="string">'iter'</span>);
+[prob,err]=mvtcdf(l,u,Sig,df,options)
+</pre><pre class="codeoutput">estimate     error estimate    function evaluations
+---------------------------------------------------
+2.9028e-49      7.98495e-49           8650
+3.0126e-50      9.24460e-50           21800
+3.0979e-50      9.24224e-50           41650
+3.6333e-50      9.18243e-50           71300
+3.7982e-50      9.17764e-50           116650
+4.0172e-50      9.16803e-50           184700
+4.1066e-50      9.16629e-50           287350
+4.1362e-50      9.16598e-50           441300
+5.5035e-50      9.07403e-50           672350
+Warning: Unable to achieve error tolerance of 0 in 1000000 function evaluations.
+Increase the maximum number of function evaluations, or the error tolerance. 
+
+prob =
+
+   5.5035e-50
+
+
+err =
+
+   9.0740e-50
+
+</pre><h2><tt>mvTqmc(l,u,Sig,df,n)</tt> - multivariate student cumulative distribution (Quasi Monte Carlo)<a name="3"></a></h2><p>Compare errors using pseudo-random and quasi-random implementation for small to medium <img src="examplesT_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">.</p><pre class="codeinput">est=mvTqmc(l,u,Sig,df,10^4) <span class="comment">% QMC version</span>
+est=mvTcdf(l,u,Sig,df,10^4) <span class="comment">% ordinary Monte Carlo version</span>
+</pre><pre class="codeoutput">
+est = 
+
+      prob: 1.7813e-37
+    relErr: 5.0162e-04
+     upbnd: 2.8537e-37
+
+
+est = 
+
+      prob: 1.7808e-37
+    relErr: 0.0048
+     upbnd: 2.8537e-37
+
+</pre><h2><tt>mvrandn(l,u,Sig,n)</tt> - truncated multivariate normal generator<a name="4"></a></h2><div><ul><li>Large-scale example with strong positive correlation.</li></ul></div><pre class="codeinput">d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2; df=10;
+X=mvrandt(l,u,Sig,df,n);
+</pre><p>Plot the boxplots of the <img src="examplesT_eq17615571056258974497.png" alt="$d$" style="width:8px;height:11px;">-marginal distributions together with their truncation limits.</p><pre class="codeinput">boxplot(X',<span class="string">'plotstyle'</span>,<span class="string">'compact'</span>),set(gca,<span class="string">'XTickLabel'</span>,{<span class="string">''</span>}),
+xlabel(<span class="string">'dimension index'</span>),ylabel(<span class="string">'X_i'</span>),hold <span class="string">on</span>, plot(1:d,l,<span class="string">'r'</span>,1:d,u,<span class="string">'r'</span>)
+</pre><img vspace="5" hspace="5" src="examplesT_01.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Truncated Multivariate Student Toolbox
+% Main functions in this toolbox include.
+%
+% # |mvTcdf(l,u,Sig,nu,n)|, which uses a Monte Carlo sample of size $n$ to estimate the cumulative
+% distribution function, $\mathrm{Pr}( l < X < u)$, of the $d$-dimensional
+% multivariate student with zero-mean and covariance $\Sigma$ and
+% degrees of freedom $\nu$, that is, $X\sim t_\nu(0,\Sigma)$;
+% # |mvTqmc(l,u,Sig,nu,n)| provides a Quasi Monte Carlo algorithm for medium dimensions
+% (say, $d<50$), in addition to the faster Monte Carlo algorithm in |mvTcdf|;
+% # |mvrandt(l,u,Sig,nu,n)| simulates $n$ random vectors $X\sim t_\nu(0,\Sigma)$, conditional on $l<X<u$;
+%
+% Reference: Z. I. Botev (2015), _The Normal Law Under Linear Restrictions:
+% Simulation and Estimation via Minimax Tilting_, submitted to JRSS(B)
+%
+%% |mvTcdf(l,u,Sig,nu,n)| - multivariate student cumulative distribution
+%
+% * Comparison with Matlab's default routine
+d=20;l=ones(d,1)/2;u=ones(d,1);df=400;Sig=inv(0.5*eye(d)+.5*ones(d,d));
+est=mvTcdf(l,u,Sig,df,10^4) % output of our method
+%%
+% Now execute Matlab's toolbox\stats\stats\mvtcdf.m and verify that with n=10^6 it is slow and inaccurate.
+options=optimset('TolFun',0,'MaxFunEvals',10^6,'Display','iter');
+[prob,err]=mvtcdf(l,u,Sig,df,options)
+%% |mvTqmc(l,u,Sig,df,n)| - multivariate student cumulative distribution (Quasi Monte Carlo)
+% Compare errors using pseudo-random and quasi-random implementation for small to medium
+% $d$.
+est=mvTqmc(l,u,Sig,df,10^4) % QMC version
+est=mvTcdf(l,u,Sig,df,10^4) % ordinary Monte Carlo version
+%% |mvrandn(l,u,Sig,n)| - truncated multivariate normal generator
+% * Large-scale example with strong positive correlation.
+d=60;n=10^3;
+Sig=0.9*ones(d,d)+.1*eye(d);
+l=(1:d)/d*4;u=l+2; df=10;
+X=mvrandt(l,u,Sig,df,n);
+%%
+% Plot the boxplots of the $d$-marginal distributions together with their
+% truncation limits.
+boxplot(X','plotstyle','compact'),set(gca,'XTickLabel',{''}),
+xlabel('dimension index'),ylabel('X_i'),hold on, plot(1:d,l,'r',1:d,u,'r')
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,178 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Exact Simulations for the Bayesian Posterior of the Tobit Regression</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-02-04"><meta name="DC.source" content="WomenWage.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Exact Simulations for the Bayesian Posterior of the Tobit Regression</h1><p>Example uses the <b>women's wage</b> dataset from T. A. Mroz, <i>Econometrica: Journal of the Econometric Society</i> Vol. 55, No. 4 (Jul., 1987), pp. 765-799</p><p>The response variables <img src="WomenWage_eq16940021264122583678.png" alt="$\mathbf{y}=(y_1,\ldots,y_m)^\top$" style="width:110px;height:17px;"> in the Tobit model is modelled via:</p><p><img src="WomenWage_eq14501329611389402719.png" alt="$$ Y_i=W_i\mathrm{I}\{u_i<W_i\}+u_i\mathrm{I}\{W_i\leq u_i\},\textrm{ where } \mathbf{W}\sim N(X\beta,\sigma^2 I), $$" style="width:392px;height:18px;"></p><p>where <img src="WomenWage_eq07236658292864322616.png" alt="$\mathbf{W}$" style="width:18px;height:11px;"> are <i>hidden</i> or <i>latent</i> variables; <img src="WomenWage_eq10538554070322782641.png" alt="$(\beta,\sigma)$" style="width:34px;height:15px;"> are the model parameters; and <img src="WomenWage_eq12306435316311753674.png" alt="$X=[\mathbf{x}_1^\top,\ldots,\mathbf{x}_d^\top]^\top$" style="width:116px;height:17px;"> is the matrix with predictors. We wish to sample from the Bayesian posterior with priors: <img src="WomenWage_eq03666100178480150571.png" alt="$p(\beta)$" style="width:27px;height:15px;"> proportional to <img src="WomenWage_eq18395870634560867587.png" alt="$1$" style="width:6px;height:10px;">, and <img src="WomenWage_eq17880800793679206198.png" alt="$p(\sigma)$" style="width:26px;height:15px;"> proportional to <img src="WomenWage_eq02679340058681880313.png" alt="$\sigma^{-2}$" style="width:22px;height:14px;">. This gives the posterior:</p><p><img src="WomenWage_eq00233998567658296300.png" alt="$$ f(\beta,\sigma)=\mathrm{const.} \times\exp\left(-\sum_{i:y_i&gt;u_i}\left(\frac{(y_i-\mathbf{x}_i^\top\beta)^2}{2\sigma^2}+\ln\sigma\right)+\sum_{i: y_i=u_i}\ln\Phi((u_i-\mathbf{x}_i^\top\beta)/\sigma)\right) \times \sigma^{-2} $$" style="width:569px;height:46px;"></p><p>An appropriate coordinate tranformation, <img src="WomenWage_eq06609575564754018977.png" alt="$(\beta,\sigma)\mapsto (\mathbf{z},r)$" style="width:89px;height:15px;">, shows that simulating from the above posterior is equivelent to simulating from the truncated pdf:</p><p><img src="WomenWage_eq06396544206978520051.png" alt="$$ f(\mathbf{z},r)=\mathrm{const.}\times&#xA;\exp\left(-\frac{\mathbf{z}^\top\mathbf{z}}{2}-\frac{r^2}{2}+(\nu-1)\ln&#xA;r\right)\mathrm{I}\{\sqrt{\nu}\, L\mathbf{z}\geq r \mathbf{ l}\} $$" style="width:415px;height:37px;"></p><p>for some lower triangular matrix <img src="WomenWage_eq11904963258706611165.png" alt="$L$" style="width:10px;height:10px;"> and threshold vector <img src="WomenWage_eq01098908074072709579.png" alt="$\mathbf{l}$" style="width:4px;height:10px;">. In fact, the distribution of <img src="WomenWage_eq13431344507712736679.png" alt="$\mathbf{X}=\sqrt{\nu}\frac{L\mathbf{Z}}{R}$" style="width:69px;height:18px;"> is the multivariate student <img src="WomenWage_eq11704671469832840469.png" alt="$t_\nu(\mathbf{0},LL^\top)$" style="width:66px;height:17px;"> truncated to <img src="WomenWage_eq07293130666593455319.png" alt="$\mathbf{X}\geq \mathbf{l}$" style="width:37px;height:13px;">. We can thus use <tt>tregress.m</tt> to perform this simulation.</p><pre class="codeinput">Wage=csvread(<span class="string">'private\WomenWage.csv'</span>,1,0); <span class="comment">% load data</span>
+Y = Wage(:,1); m=length(Y); <span class="comment">% response and design matrix</span>
+X = [ones(m,1),Wage(:,2:end)];
+[m, d] = size(X); <span class="comment">% dimensions of problem</span>
+Yl=Y(Y==0);Yu=Y(Y&gt;0);Xl=X(Y==0,:); Xu=X(Y&gt;0,:);
+ml=length(Yl);Inv=inv(Xu'*Xu);Sig=eye(ml)+Xl*Inv*Xl';
+s=Yu'*(eye(m-ml)-Xu*Inv*Xu')*Yu; <span class="comment">% least squares residuals</span>
+s=sqrt(s);
+nu=m-d-ml+1; <span class="comment">% degrees of freedom</span>
+wh=Xl*Inv*Xu'*Yu; <span class="comment">% w hat</span>
+l=sqrt(nu)*wh/s; <span class="comment">% upper threshold for censoring is zero</span>
+</pre><p>Simulate <img src="WomenWage_eq08907951036697752924.png" alt="$(\mathbf{Z},R)$" style="width:37px;height:15px;"> from a truncated student-type distribution:</p><pre class="codeinput">n=10^4;
+[Z,R]=tregress(l,Inf(size(wh)),Sig,nu,n);
+</pre><p>Reverse the mapping <img src="WomenWage_eq06609575564754018977.png" alt="$(\beta,\sigma)\mapsto (\mathbf{z},r)$" style="width:89px;height:15px;"> to obtain samples from the posterior of <img src="WomenWage_eq17331442575217596290.png" alt="$\beta$" style="width:9px;height:14px;">:</p><pre class="codeinput">sig=s./R; <span class="comment">% posterior distr. of sigma</span>
+C=inv(Xu'*Xu+Xl'*Xl);L=chol(C,<span class="string">'lower'</span>);
+beta=nan(d,n);
+<span class="keyword">for</span> k=1:n
+    W=wh-sig(k)*Z(:,k); <span class="comment">% auxiliary variables</span>
+    beta(:,k)=C*(Xu'*Yu+Xl'*W)+sig(k)*L*randn(d,1);
+<span class="keyword">end</span>
+</pre><p>Boxplot the marginal distributions of the posterior to assess statistical significance.</p><pre class="codeinput">boxplot(beta(2:d,:)',<span class="string">'labels'</span>, <span class="keyword">...</span>
+    {<span class="string">'kidslt6'</span>,<span class="string">'kidsge6'</span>,<span class="string">'age'</span>,<span class="string">'educ'</span>,<span class="string">'exper'</span>,<span class="string">'nwifeinc'</span>,<span class="string">'expersq'</span>}), box <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="WomenWage_01.png" style="width:560px;height:420px;" alt=""> <p>Plot marginal means and standard deviations</p><pre class="codeinput">[mean(beta,2),prctile(beta,2.5,2),prctile(beta,97.5,2),std(beta,[],2)]
+</pre><pre class="codeoutput">
+ans =
+
+   1.0e+03 *
+
+    0.9565    0.0429    1.8139    0.4525
+   -0.9059   -1.1441   -0.6836    0.1176
+   -0.0160   -0.0934    0.0606    0.0390
+   -0.0549   -0.0703   -0.0402    0.0077
+    0.0819    0.0392    0.1274    0.0224
+    0.1331    0.0976    0.1696    0.0183
+   -0.0090   -0.0181   -0.0001    0.0046
+   -0.0019   -0.0030   -0.0008    0.0006
+
+</pre><p>Reference: Z. I. Botev and P. L'Ecuyer (2015), <i>Efficient probability estimation and simulation of the truncated multivariate student-t distribution</i>, Proceedings of the 2015 Winter Simulation Conference, pages 380-391, (L. Yilmaz, W. Chan, I. Moon, T. Roeder, C. Macal, and M. Rossetti, eds.)</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Exact Simulations for the Bayesian Posterior of the Tobit Regression
+% Example uses the *women's wage* dataset from
+% T. A. Mroz, _Econometrica: Journal of the Econometric Society_ Vol. 55, No. 4 (Jul., 1987), pp. 765-799
+% 
+% The response variables $\mathbf{y}=(y_1,\ldots,y_m)^\top$ in the Tobit
+% model is modelled via:
+%
+% $$ Y_i=W_i\mathrm{I}\{u_i<W_i\}+u_i\mathrm{I}\{W_i\leq u_i\},\textrm{ where } \mathbf{W}\sim N(X\beta,\sigma^2 I), $$
+%
+% where $\mathbf{W}$ are _hidden_ or _latent_ variables;
+% $(\beta,\sigma)$ are the model parameters; and $X=[\mathbf{x}_1^\top,\ldots,\mathbf{x}_d^\top]^\top$ is the matrix with predictors. 
+% We wish to sample from the Bayesian posterior with priors: $p(\beta)$ 
+% proportional to $1$, and $p(\sigma)$ proportional to $\sigma^{-2}$.
+% This gives the posterior:
+%
+% $$ f(\beta,\sigma)=\mathrm{const.} \times\exp\left(-\sum_{i:y_i>u_i}\left(\frac{(y_i-\mathbf{x}_i^\top\beta)^2}{2\sigma^2}+\ln\sigma\right)+\sum_{i: y_i=u_i}\ln\Phi((u_i-\mathbf{x}_i^\top\beta)/\sigma)\right) \times \sigma^{-2} $$
+%
+% An appropriate coordinate tranformation, $(\beta,\sigma)\mapsto (\mathbf{z},r)$, shows that simulating from the
+% above posterior is equivelent to simulating from the truncated pdf:
+%
+% $$ f(\mathbf{z},r)=\mathrm{const.}\times
+% \exp\left(-\frac{\mathbf{z}^\top\mathbf{z}}{2}-\frac{r^2}{2}+(\nu-1)\ln
+% r\right)\mathrm{I}\{\sqrt{\nu}\, L\mathbf{z}\geq r \mathbf{ l}\} $$
+%
+% for some lower triangular matrix $L$ and threshold vector $\mathbf{l}$. 
+% In fact, the distribution of $\mathbf{X}=\sqrt{\nu}\frac{L\mathbf{Z}}{R}$ is the
+% multivariate student $t_\nu(\mathbf{0},LL^\top)$ truncated to
+% $\mathbf{X}\geq \mathbf{l}$. We can thus use |tregress.m| to perform this
+% simulation.
+Wage=csvread('private\WomenWage.csv',1,0); % load data
+Y = Wage(:,1); m=length(Y); % response and design matrix
+X = [ones(m,1),Wage(:,2:end)];
+[m, d] = size(X); % dimensions of problem
+Yl=Y(Y==0);Yu=Y(Y>0);Xl=X(Y==0,:); Xu=X(Y>0,:);
+ml=length(Yl);Inv=inv(Xu'*Xu);Sig=eye(ml)+Xl*Inv*Xl';
+s=Yu'*(eye(m-ml)-Xu*Inv*Xu')*Yu; % least squares residuals
+s=sqrt(s);
+nu=m-d-ml+1; % degrees of freedom
+wh=Xl*Inv*Xu'*Yu; % w hat
+l=sqrt(nu)*wh/s; % upper threshold for censoring is zero
+%%
+% Simulate $(\mathbf{Z},R)$ from a truncated student-type distribution:
+n=10^4;
+[Z,R]=tregress(l,Inf(size(wh)),Sig,nu,n);
+%%
+% Reverse the mapping $(\beta,\sigma)\mapsto (\mathbf{z},r)$ to obtain samples from the posterior of $\beta$:
+sig=s./R; % posterior distr. of sigma
+C=inv(Xu'*Xu+Xl'*Xl);L=chol(C,'lower');
+beta=nan(d,n);
+for k=1:n
+    W=wh-sig(k)*Z(:,k); % auxiliary variables
+    beta(:,k)=C*(Xu'*Yu+Xl'*W)+sig(k)*L*randn(d,1);
+end
+%%
+% Boxplot the marginal distributions of the posterior to assess statistical
+% significance.
+boxplot(beta(2:d,:)','labels', ...
+    {'kidslt6','kidsge6','age','educ','exper','nwifeinc','expersq'}), box off
+%%
+% Plot marginal means and standard deviations
+[mean(beta,2),prctile(beta,2.5,2),prctile(beta,97.5,2),std(beta,[],2)]
+%%
+% Reference:
+% Z. I. Botev and P. L'Ecuyer (2015), _Efficient probability estimation
+% and simulation of the truncated multivariate student-t distribution_, 
+% Proceedings of the 2015 Winter Simulation Conference, pages 380-391, 
+% (L. Yilmaz, W. Chan, I. Moon, T. Roeder, C. Macal, and M. Rossetti, eds.)
+%
+
+##### SOURCE END #####
+--></body></html>
